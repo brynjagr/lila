@@ -28,7 +28,8 @@ case class Player(
   def doWithdraw = copy(withdraw = true)
   def unWithdraw = copy(withdraw = false)
 
-  def magicScore = score * 10000 + (performance | rating).value
+  // players without games rank below everyone who has played
+  def magicScore = score * 10000 + performance.fold(rating.value - 10000)(_.value)
 
   def showRating = s"$rating${provisional.yes.so("?")}"
 
